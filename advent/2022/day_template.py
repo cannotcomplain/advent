@@ -1,25 +1,16 @@
 #!/usr/bin/env python3
 
+import os
+import ipdb
 from pathlib import Path
 from typing import List, Union
-import os
 
-
-def create_line_generator(file_path, dtype=int):
-    with open(file_path, 'r') as file:
-        for line in file:
-            try:
-                yield [dtype(value) for value in line.strip().split()]
-            except ValueError as e:
-                print(f"Error converting line '{line.strip()}' to list of {dtype.__name__}: {e}")
 
 class Advent:
-
     def __init__(self, input_file: str | os.PathLike ):
         """Initialize the file path and create a generator to read in the input file"""
 
         self.input_file = input_file
-        self.input_generator = create_line_generator(input_file)
 
         # Run part 1
         self.sol1 = self.part1()
@@ -29,13 +20,29 @@ class Advent:
     def part1(self):
         """Part 1 solver."""
 
+#        line_generator = self.create_line_generator()
+#        for line in line_generator:
+#             pass
+
         return 'not done'
 
 
     def part2(self):
         """Part 2 solver."""
 
+#        line_generator = self.create_line_generator()
+#        for line in line_generator:
+#             pass
+
         return 'not done'
+
+    def create_line_generator(self):
+            with open(self.input_file, 'r') as file:
+                for line in file:
+                    try:
+                        yield line.strip()
+                    except ValueError as e:
+                        print(f"Error returning line '{line.strip()}'")
 
 
 if __name__ == "__main__":

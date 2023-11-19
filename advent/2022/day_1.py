@@ -6,13 +6,6 @@ from pathlib import Path
 from typing import List, Union
 from ipdb import set_trace as db
 
-def create_line_generator(file_path):
-    with open(file_path, 'r') as file:
-        for line in file:
-            try:
-                yield line.strip()
-            except ValueError as e:
-                print(f"Error returning line '{line.strip()}'")
 
 class Advent:
 
@@ -20,7 +13,6 @@ class Advent:
         """Initialize the file path and create a generator to read in the input file"""
 
         self.input_file = input_file
-        self.inputs = create_line_generator(input_file)
 
         # Run part 1
         self.sol1 = self.part1()
@@ -32,7 +24,9 @@ class Advent:
 
         highest_calorie_pack = 0
         current_pack = 0
-        for line in self.inputs:
+
+        line_generator = self.create_line_generator(self.input_file)
+        for line in line_generator:
             if line == '' or line.isspace():
                 if current_pack > highest_calorie_pack:
                     highest_calorie_pack = current_pack
@@ -43,6 +37,11 @@ class Advent:
                 except ValueError as e:
                     print(f"Could not convert line {line} to int")
 
+        # make sure to check last row, if it isn't a blank space
+        if current_pack != 0:
+            if current_pack > highest_calorie_pack:
+                highest_calorie_pack = current_pack
+
         return highest_calorie_pack
 
 
@@ -51,14 +50,14 @@ class Advent:
         Find the three elves with the most calories. Each elves pack is separated by a blank line.
         How many calories to all three of those elves have combined?
         """
-
         highest_calorie_packs = [0, 0, 0] # three packs in increasing calorie order
         current_pack = 0
-        for line in self.inputs:
+
+        line_generator = self.create_line_generator(self.input_file)
+        for line in line_generator:
             if line == '' or line.isspace():
                 test_packs = highest_calorie_packs + [current_pack]
                 highest_calorie_packs = heapq.nlargest(3, test_packs)
-                db()
                 current_pack = 0
             else:
                 try:
@@ -66,8 +65,24 @@ class Advent:
                 except ValueError as e:
                     print(f"Could not convert line {line} to int")
 
+        # make sure to check last row, if it isn't a blank space
+        if current_pack != 0:
+            test_packs = highest_calorie_packs + [current_pack]
+            highest_calorie_packs = heapq.nlargest(3, test_packs)
+
         total_calories = sum(highest_calorie_packs)
         return total_calories
+
+
+    @staticmethod
+    def create_line_generator(file_path):
+        with open(file_path, 'r') as file:
+            for line in file:
+                try:
+                    yield line.strip()
+                except ValueError as e:
+                    print(f"Error returning line '{line.strip()}'")
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,5 @@
+requirements.txt filter=lfs diff=lfs merge=lfs -text
+advent/2022/inputs/ filter=lfs diff=lfs merge=lfs -text
+advent/2023/inputs filter=lfs diff=lfs merge=lfs -text
+advent/2023/tests/inputs filter=lfs diff=lfs merge=lfs -text
+advent/2022/tests/inputs filter=lfs diff=lfs merge=lfs -text
