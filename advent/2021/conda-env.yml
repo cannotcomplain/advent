@@ -1,0 +1,8 @@
+# run: conda env create --file environment.yml
+name: advent
+dependencies:
+- python>=3.8
+- anaconda
+- pip:
+
+  # installing pip within anaconda insures isolated installations
